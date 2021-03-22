@@ -19,7 +19,7 @@ def create():
     db = get_db()
     error = None
     if get_person(person_id) is not None:
-        error = f'Person with id {person_id} already exists.'
+        error = f'Person with id {person_id} already exists. Use /update'
     
     if error is None:
         # save version as YYYYMMDD: person_data
@@ -83,14 +83,14 @@ def read(person_id=None, version=None):
             if version not in person:
                 return f'Person {person_id} does not have version {version}', 404
             person = person[version]
-        data = {
+        data = [{
             'id': person['id'],
             'first_name': person['first_name'],
             'middle_name': person['middle_name'],
             'last_name': person['last_name'],
             'email': person['email'],
             'age': person['age']
-        }
+        }]
 
     return json.dumps(data)
 
@@ -98,9 +98,12 @@ def read(person_id=None, version=None):
 @bp.route('/update/<int:person_id>', methods=('POST',))
 def update(person_id):
     person = get_person(person_id)
+    if person is None:
+        return PERSON_NOT_FOUND.format(person_id=person_id), 404
     db = get_db()
 
     try:
+        # TODO: if field missing from request.form, use data from person
         data = request.form
         person_data = {
             'id': person_id,
@@ -141,7 +144,6 @@ def update(person_id):
 @bp.route('/delete/<int:person_id>', methods=('POST',))
 def delete(person_id):
     person = get_person(person_id)
-    print('heyo', person)
     if person is None:
         return PERSON_NOT_FOUND.format(person_id=person_id), 404
     db = get_db()
