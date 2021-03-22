@@ -7,7 +7,7 @@ from werkzeug.exceptions import abort
 
 from application.db import get_db
 
-bp = Blueprint('people', __name__, url_prefix='/people')
+bp = Blueprint('people', __name__)
 
 
 PERSON_NOT_FOUND = 'Person with id {person_id} not found'
