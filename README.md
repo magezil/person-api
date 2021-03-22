@@ -1,4 +1,4 @@
-# noyo
+# person-api
 
 Start virtual environment
 `. venv/bin/activate`
