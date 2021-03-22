@@ -3,8 +3,12 @@
 Start virtual environment
 `. venv/bin/activate`
 
-init db
-`flask init-db`
+Install project
+`pip install -e .`
 
-run
-`flask run`
+Run with
+```
+export FLASK_APP=application
+export FLASK_ENV=development
+flask run
+```
